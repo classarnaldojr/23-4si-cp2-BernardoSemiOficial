@@ -18,7 +18,12 @@ PLAYERRIGHT = "Jogador 2"
 
 tesoura = [0, 1, 1, 0, 0]
 pedra = [0, 0, 0, 0, 0]
-papel = [1, 1, 1, 1, 1]
+papel = [[1, 1, 0, 0, 0], [0, 0, 0, 1, 1]]
+
+pedraRight = [[0, 0, 1, 1, 1], [1, 1, 0, 0, 0]]
+papelRight = [[1, 0, 1, 0, 0], [0, 0, 0, 1, 1], [0, 1, 0, 1, 1]]
+papelLeft = [[1, 1, 0, 0, 0], [0, 1, 0, 1, 1], [0, 0, 1, 1, 1]]
+pedraLeft = []
 
 placar = [0, 0] # [PLAYER LEFT, PLAYER RIGHT]
 colorBlack = [0, 0, 0]
@@ -50,16 +55,16 @@ def image_da_webcam(img):
         print(fingersRight)
 
 
-        if fingersLeft == pedra:
+        if fingersLeft in pedra:
             playerLeft = PEDRA
-        elif fingersLeft == papel:
+        elif fingersLeft in papelLeft:
             playerLeft = PAPEL
         elif fingersLeft == tesoura:
             playerLeft = TESOURA
         
-        if fingersRight == pedra:
+        if fingersRight in pedraRight:
             playerRight = PEDRA
-        elif fingersRight == papel:
+        elif fingersRight in papelRight:
             playerRight = PAPEL
         elif fingersRight == tesoura:
             playerRight = TESOURA

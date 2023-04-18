@@ -3,9 +3,7 @@ import os.path
 import sys
 
 import cv2
-import cvzone
 import numpy as np
-from cvzone.HandTrackingModule import HandDetector
 
 
 def resizeImage(img):

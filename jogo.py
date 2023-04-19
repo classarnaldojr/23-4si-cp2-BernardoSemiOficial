@@ -9,9 +9,9 @@ import numpy as np
 def resizeImage(img):
     return cv2.resize(img, (0, 0), None, 0.475, 0.475)
 
-def desenharEmTela(img, text, origem, color):
+def drawOnScreen(img, text, origem, color):
     font = cv2.FONT_HERSHEY_SIMPLEX
-    cv2.putText(img, str(text), origem, font,0.7,color,2,cv2.LINE_AA)
+    cv2.putText(img, str(text), origem, font, 0.7, color, 2, cv2.LINE_AA)
 
 TESOURA = "TESOURA"
 PEDRA = "PEDRA"
@@ -53,19 +53,19 @@ def movePlayerLeft(imgGray, imgRgb):
     # PAPEL
     if minMatchValuePapel < 0.019:
         drawPosition = (positionMatchPapel[0] , positionMatchPapel[1] + heigthTemplatePapel + 30)
-        desenharEmTela(imgRgb, PAPEL, drawPosition, colorBlack)
+        drawOnScreen(imgRgb, PAPEL, drawPosition, colorBlack)
         return [PAPEL, positionMatchPapel]
     
     # TESOURA
     if minMatchValueTesoura < 0.030:
         drawPosition = (positionMatchTesoura[0] , positionMatchTesoura[1] + heigthTemplateTesoura + 30)
-        desenharEmTela(imgRgb, TESOURA, drawPosition, colorBlack)
+        drawOnScreen(imgRgb, TESOURA, drawPosition, colorBlack)
         return [TESOURA, positionMatchTesoura]
     
     # PEDRA
     if minMatchValuePedra < 0.0098: 
         drawPosition = (positionMatchPedra[0] , positionMatchPedra[1] + heigthTemplatePedra + 30)
-        desenharEmTela(imgRgb, PEDRA, drawPosition, colorBlack)
+        drawOnScreen(imgRgb, PEDRA, drawPosition, colorBlack)
         return [PEDRA, positionMatchPedra]
     
     return [JOGADANAOIDENTIFICADA, [0, 0]]
@@ -86,19 +86,19 @@ def movePlayerRight(imgGray, imgRgb):
     # PAPEL
     if minMatchValuePapel < 0.019:
         drawPosition = (positionMatchPapel[0] , positionMatchPapel[1] + heigthTemplatePapel + 30)
-        desenharEmTela(imgRgb, PAPEL, drawPosition, colorBlack)
+        drawOnScreen(imgRgb, PAPEL, drawPosition, colorBlack)
         return [PAPEL, positionMatchPapel]
     
     # TESOURA
     if minMatchValueTesoura < 0.030:
         drawPosition = (positionMatchTesoura[0] , positionMatchTesoura[1] + heigthTemplateTesoura + 30)
-        desenharEmTela(imgRgb, TESOURA, drawPosition, colorBlack)
+        drawOnScreen(imgRgb, TESOURA, drawPosition, colorBlack)
         return [TESOURA, positionMatchTesoura]
     
     # PEDRA
     if minMatchValuePedra < 0.0098: 
         drawPosition = (positionMatchPedra[0] , positionMatchPedra[1] + heigthTemplatePedra + 30)
-        desenharEmTela(imgRgb, PEDRA, drawPosition, colorBlack)
+        drawOnScreen(imgRgb, PEDRA, drawPosition, colorBlack)
         return [PEDRA, positionMatchPedra]
     
     return [JOGADANAOIDENTIFICADA, [0, 0]]
@@ -134,7 +134,7 @@ def newRound(movePlayLeft, movePlayRight):
         return True
     return False
 
-def image_da_webcam(img):
+def formatFrame(img):
     global lastPlayerWin
     global lastScoreView
 
@@ -153,10 +153,10 @@ def image_da_webcam(img):
         lastPlayerWin = playerWin
         lastScoreView = scoreView
 
-    desenharEmTela(imgScaled, lastScoreView, (int(imgWidth / 2) - 120, 50), colorBlack)
-    desenharEmTela(imgScaled, lastPlayerWin, (int(imgWidth / 2) - 190, 90), colorBlack)
-    desenharEmTela(imgScaled, PLAYERLEFT, (matchPositionLeft[0], (matchPositionLeft[1] - 30)), colorBlack)
-    desenharEmTela(imgScaled, PLAYERRIGHT, (matchPositionRight[0], (matchPositionRight[1] - 30)), colorBlack)
+    drawOnScreen(imgScaled, lastScoreView, (int(imgWidth / 2) - 120, 50), colorBlack)
+    drawOnScreen(imgScaled, lastPlayerWin, (int(imgWidth / 2) - 190, 90), colorBlack)
+    drawOnScreen(imgScaled, PLAYERLEFT, (matchPositionLeft[0], (matchPositionLeft[1] - 30)), colorBlack)
+    drawOnScreen(imgScaled, PLAYERRIGHT, (matchPositionRight[0], (matchPositionRight[1] - 30)), colorBlack)
         
     return imgScaled
 
@@ -169,11 +169,8 @@ else:
     rval = False
 
 while rval:
-    
-    img = image_da_webcam(frame)
-
+    img = formatFrame(frame)
     cv2.imshow("preview", img)
-
     rval, frame = vc.read()
     key = cv2.waitKey(20)
     if key == 27:
